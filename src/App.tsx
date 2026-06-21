@@ -336,43 +336,47 @@ export default function App() {
       </Show>
 
       <Show when={mode() === "idle"}>
-        <form onSubmit={(e) => (e.preventDefault(), host())}>
-          <fieldset>
-            <legend>Host a call</legend>
-            <label>
-              Your name{" "}
-              <input
-                required
-                value={username()}
-                onInput={(e) => setUsername(e.currentTarget.value)}
-              />
-            </label>{" "}
-            <button>Host</button>
-          </fieldset>
-        </form>
-
-        <form onSubmit={(e) => (e.preventDefault(), join())}>
-          <fieldset>
-            <legend>Join a call</legend>
-            <label>
-              Your name
-              <input
-                required
-                value={username()}
-                onInput={(e) => setUsername(e.currentTarget.value)}
-              />
-            </label>
-            <label>
-              Call ID
-              <input
-                required
-                value={lobbyId()}
-                onInput={(e) => setLobbyId(e.currentTarget.value)}
-              />
-            </label>
-            <button>Join</button>
-          </fieldset>
-        </form>
+        <article>
+          <form onSubmit={(e) => (e.preventDefault(), host())}>
+            <fieldset>
+              <legend>Host a call</legend>
+              <label>
+                Your name
+                <input
+                  required
+                  value={username()}
+                  onInput={(e) => setUsername(e.currentTarget.value)}
+                />
+              </label>
+              <button>Host</button>
+            </fieldset>
+          </form>
+        </article>
+        <hr />
+        <article>
+          <form onSubmit={(e) => (e.preventDefault(), join())}>
+            <fieldset>
+              <legend>Join a call</legend>
+              <label>
+                Your name
+                <input
+                  required
+                  value={username()}
+                  onInput={(e) => setUsername(e.currentTarget.value)}
+                />
+              </label>
+              <label>
+                Call ID
+                <input
+                  required
+                  value={lobbyId()}
+                  onInput={(e) => setLobbyId(e.currentTarget.value)}
+                />
+              </label>
+              <button>Join</button>
+            </fieldset>
+          </form>
+        </article>
       </Show>
 
       <Show when={mode() === "connecting"}>
