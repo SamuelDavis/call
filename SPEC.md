@@ -5,7 +5,7 @@ Browser-based 2-person phone call with per-speaker local recording, for syncing 
 ## Non-negotiables
 - Unstyled, semantic HTML. Defer to the browser for everything it already does (form validation, `<dialog>`, downloads, clipboard).
 - Minimal, type-safe code. Few files (`App.tsx` + `idb.ts`), few components, flat signals.
-- Chromium-only (Chrome/Edge/Brave). WebM/Opus assumed; one capability check, no fallback path.
+- Chromium (Chrome/Edge/Brave) + Firefox. Opus codec; container is feature-picked per browser (webm on Chromium, ogg on Firefox) and the file extension matches. One capability check, no other fallback.
 - **Recoverability is paramount.** Each person's own mic is recorded locally and persisted; nothing the network does can corrupt it.
 
 ## Architecture

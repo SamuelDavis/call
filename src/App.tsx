@@ -19,9 +19,14 @@ import {
   type StreamId,
 } from "./idb.ts";
 
-const MIME = "audio/webm;codecs=opus";
-const SUPPORTED =
-  typeof MediaRecorder !== "undefined" && MediaRecorder.isTypeSupported(MIME);
+// Chromium does webm/opus; Firefox does ogg/opus. Same codec, pick the supported container.
+const MIME =
+  ["audio/webm;codecs=opus", "audio/ogg;codecs=opus"].find(
+    (m) => typeof MediaRecorder !== "undefined" && MediaRecorder.isTypeSupported(m),
+  ) ?? "";
+const SUPPORTED = MIME !== "";
+const CONTAINER = MIME.includes("webm") ? "audio/webm" : "audio/ogg";
+const EXT = MIME.includes("webm") ? "webm" : "ogg";
 const TIMESLICE_MS = 5000;
 const BITRATE = 64000;
 
@@ -301,12 +306,12 @@ export default function App() {
   async function download(s: StreamMeta): Promise<void> {
     const url = URL.createObjectURL(
       new Blob(await getChunkBlobs(s.callId, s.streamId), {
-        type: "audio/webm",
+        type: CONTAINER,
       }),
     );
     const a = document.createElement("a");
     a.href = url;
-    a.download = `${s.username}_${s.offsetMs}ms.webm`;
+    a.download = `${s.username}_${s.offsetMs}ms.${EXT}`;
     a.click();
     URL.revokeObjectURL(url);
   }
@@ -320,7 +325,7 @@ export default function App() {
     return (
       <main>
         <h1>call</h1>
-        <p>This app needs a Chromium browser (Chrome, Edge, or Brave).</p>
+        <p>This app needs Chrome, Edge, Brave, or Firefox.</p>
       </main>
     );
   }
